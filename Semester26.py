@@ -8,7 +8,7 @@ def draw_the_map():
     ax_map.cla()
     ax_map.imshow(img, extent=(0, 100, 0, 100), aspect='auto')
     x,y = marked_point
-    ax_map.scatter(x, y, marker='+', c='blue', s=200)
+    ax_map.scatter(x, y, marker='*', c='blue', s=200)
     print(f"marked_point: {marked_point}")
     if marked_point == (0, 0):
         return
@@ -21,7 +21,7 @@ def draw_the_map():
 
     ax_map.text(x + 3, y - 1, price, color='blue', fontsize=15)
     ax_history.cla()
-    ax_history.bar(m2list, price_m2, color='blue', width=5)
+    ax_history.bar(m2list, price_m2, color='green', width=5)
     ax_history.legend(["pris per m2"])
 
     plt.draw()
@@ -43,6 +43,34 @@ def on_standard(key):
     global standard_type
     standard_type = standard_types[key]
     draw_the_map()
+
+def colour_mixer(label):
+    global trueColor
+
+    # 1. Look up the integer using the clicked label string
+    # If 'label' is 'God', standard_types[label] becomes 2
+    selected_number = standard_types[label]
+
+    # 2. Match the integer
+    match selected_number:
+        case 1:
+            trueColor = "red"
+        case 2:
+            trueColor = "green"
+        case 3:
+            trueColor = "blue"
+        case 4:
+            trueColor = "yellow"
+
+    # 3. Apply the color
+    radio_button_standard.activecolor = trueColor
+
+    # 4. Force Matplotlib to redraw the screen
+    plt.draw()
+
+def handle_standard_click(label):
+    on_standard(label)
+    colour_mixer(label)
 
 house_types = {
     'Enebolig': 1,
@@ -73,9 +101,10 @@ ax_radio_house_type.set_facecolor('lightgray')
 ax_radio_standard.set_facecolor('lightgray')
 
 radio_button_category = RadioButtons(ax_radio_house_type, list(house_types.keys()))
-radio_button_standard = RadioButtons(ax_radio_standard, list(standard_types.keys()))
+radio_button_standard = RadioButtons(ax_radio_standard, list(standard_types.keys()), activecolor="red")
 radio_button_category.on_clicked(on_house_type)
-radio_button_standard.on_clicked(on_standard)
+radio_button_standard.on_clicked(handle_standard_click)
+
 
 fig.subplots_adjust(left=0, right=1, top=1, bottom=0) # Adjust the figure to fit the image
 ax_map.margins(x=0.01, y=0.01)  # Adjust x and y margins
