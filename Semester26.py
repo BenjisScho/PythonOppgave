@@ -4,11 +4,14 @@ from matplotlib.widgets import RadioButtons
 import matplotlib.image as mpimg
 from Semester26_Model import  predict_price
 
+trueColor = "firebrick"
+
+
 def draw_the_map():
     ax_map.cla()
     ax_map.imshow(img, extent=(0, 100, 0, 100), aspect='auto')
     x,y = marked_point
-    ax_map.scatter(x, y, marker='*', c='blue', s=200)
+    ax_map.scatter(x, y, marker='*', c=trueColor, s=200)
     print(f"marked_point: {marked_point}")
     if marked_point == (0, 0):
         return
@@ -19,9 +22,9 @@ def draw_the_map():
     m2list = [50,100,150,200]
     price_m2 = [predict_price(x, y,  _m2, house_type, standard_type)/_m2 for _m2 in m2list]
 
-    ax_map.text(x + 3, y - 1, price, color='blue', fontsize=15)
+    ax_map.text(x + 3, y - 1, price, color=trueColor, fontsize=15)
     ax_history.cla()
-    ax_history.bar(m2list, price_m2, color='green', width=5)
+    ax_history.bar(m2list, price_m2, color=trueColor, width=5)
     ax_history.legend(["pris per m2"])
 
     plt.draw()
@@ -49,24 +52,25 @@ def colour_mixer(label):
 
     # 1. Look up the integer using the clicked label string
     # If 'label' is 'God', standard_types[label] becomes 2
+    # firebrick, darkorange, royalblue, rebeccapurple
     selected_number = standard_types[label]
 
     # 2. Match the integer
     match selected_number:
         case 1:
-            trueColor = "red"
+            trueColor = "firebrick"
         case 2:
-            trueColor = "green"
+            trueColor = "darkgreen"
         case 3:
-            trueColor = "blue"
+            trueColor = "royalblue"
         case 4:
-            trueColor = "yellow"
+            trueColor = "rebeccapurple"
 
     # 3. Apply the color
     radio_button_standard.activecolor = trueColor
 
     # 4. Force Matplotlib to redraw the screen
-    plt.draw()
+    draw_the_map()
 
 def handle_standard_click(label):
     on_standard(label)
@@ -101,7 +105,7 @@ ax_radio_house_type.set_facecolor('lightgray')
 ax_radio_standard.set_facecolor('lightgray')
 
 radio_button_category = RadioButtons(ax_radio_house_type, list(house_types.keys()))
-radio_button_standard = RadioButtons(ax_radio_standard, list(standard_types.keys()), activecolor="red")
+radio_button_standard = RadioButtons(ax_radio_standard, list(standard_types.keys()), activecolor="firebrick")
 radio_button_category.on_clicked(on_house_type)
 radio_button_standard.on_clicked(handle_standard_click)
 
