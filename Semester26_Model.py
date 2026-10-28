@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Ridge, RidgeCV
 from sklearn.metrics import r2_score, mean_absolute_error
 
+
 def build_and_train_model():
     global model
     df:DataFrame = pd.read_csv("House_Prices.csv")
@@ -26,6 +27,7 @@ def build_and_train_model():
     # Check model quality
     l_test:list[int] = y_test.tolist()
     l_pred:list[int] = y_pred.tolist()
+
     for i in range(0, min(len(l_test),10)):
         print(f"Price: {l_test[i]:>10,.0f}  Predicted: {l_pred[i]:>10,.0f}")
     print(f"R-squared: {r2_score(y_test, y_pred):.2f}")

@@ -4,11 +4,13 @@ from matplotlib.widgets import RadioButtons
 import matplotlib.image as mpimg
 from Semester26_Model import  predict_price
 
+
 trueColor = "firebrick"
 
 
 def draw_the_map():
     ax_map.cla()
+    ax_map.grid(color = "black", linestyle = "--", linewidth = 0.5)
     ax_map.imshow(img, extent=(0, 100, 0, 100), aspect='auto')
     x,y = marked_point
     ax_map.scatter(x, y, marker='*', c=trueColor, s=200)
@@ -25,9 +27,11 @@ def draw_the_map():
     ax_map.text(x + 3, y - 1, price, color=trueColor, fontsize=15)
     ax_history.cla()
     ax_history.bar(m2list, price_m2, color=trueColor, width=5)
-    ax_history.legend(["pris per m2"])
+    ax_history.legend(["pris per m2 i 10^3kr"])
 
+    plt.grid(color="black")
     plt.draw()
+
 
 def on_click_map(event) :
     global marked_point
@@ -115,8 +119,10 @@ ax_map.margins(x=0.01, y=0.01)  # Adjust x and y margins
 img = mpimg.imread('Semester26_Bergen.jpg')
 ax_map.imshow(img, aspect='auto')
 
+
 draw_the_map()
 plt.connect('button_press_event', on_click_map)
 plt.show()
+
 
 
