@@ -1,10 +1,7 @@
 # importing modules and packages
-import mae
 import matplotlib.pyplot as plt
 from matplotlib.widgets import RadioButtons
 import matplotlib.image as mpimg
-
-import Semester26_Model
 from Semester26_Model import  predict_price, get_model_scores
 
 
@@ -70,9 +67,6 @@ def on_standard(key):
 def colour_mixer(label):
     global trueColor
 
-    # 1. Look up the integer using the clicked label string
-    # If 'label' is 'God', standard_types[label] becomes 2
-    # firebrick, darkorange, royalblue, rebeccapurple
     selected_number = standard_types[label]
 
     # 2. Match the integer
@@ -86,10 +80,8 @@ def colour_mixer(label):
         case 4:
             trueColor = "rebeccapurple"
 
-    # 3. Apply the color
     radio_button_standard.activecolor = trueColor
 
-    # 4. Force Matplotlib to redraw the screen
     draw_the_map()
 
 def handle_standard_click(label):
