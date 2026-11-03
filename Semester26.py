@@ -135,12 +135,6 @@ ax_map.margins(x=0.01, y=0.01)  # Adjust x and y margins
 img = mpimg.imread('Semester26_Bergen.jpg')
 ax_map.imshow(img, aspect='auto')
 
-print("a")
-print(Semester26_Model.r2_score)
-print("b")
-
-
-
 
 draw_the_map()
 plt.connect('button_press_event', on_click_map)
