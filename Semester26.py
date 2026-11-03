@@ -1,8 +1,11 @@
 # importing modules and packages
+import mae
 import matplotlib.pyplot as plt
 from matplotlib.widgets import RadioButtons
 import matplotlib.image as mpimg
-from Semester26_Model import  predict_price
+
+import Semester26_Model
+from Semester26_Model import  predict_price, get_model_scores
 
 
 trueColor = "firebrick"
@@ -28,6 +31,19 @@ def draw_the_map():
     ax_history.cla()
     ax_history.bar(m2list, price_m2, color=trueColor, width=5)
     ax_history.legend(["pris per m2 i 10^3kr"])
+
+    scores = get_model_scores()
+
+    ax_history.text(
+        0.05, 0.95,
+        f"R2: {scores['r2']:.3f}\n" 
+        f"MAE: {scores['mae']:.0f}NOK",
+        transform = ax_history.transAxes,
+        fontsize=9,
+        verticalalignment='top',
+        bbox=dict(facecolor="white", alpha=0.8),
+    )
+
 
     plt.grid(color="black")
     plt.draw()
@@ -118,6 +134,12 @@ fig.subplots_adjust(left=0, right=1, top=1, bottom=0) # Adjust the figure to fit
 ax_map.margins(x=0.01, y=0.01)  # Adjust x and y margins
 img = mpimg.imread('Semester26_Bergen.jpg')
 ax_map.imshow(img, aspect='auto')
+
+print("a")
+print(Semester26_Model.r2_score)
+print("b")
+
+
 
 
 draw_the_map()

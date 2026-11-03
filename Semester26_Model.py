@@ -8,7 +8,7 @@ from sklearn.metrics import r2_score, mean_absolute_error
 
 
 def build_and_train_model():
-    global model
+    global model, model_r2, model_mae
     df:DataFrame = pd.read_csv("House_Prices.csv")
 
     # --- Load your data ---
@@ -23,6 +23,8 @@ def build_and_train_model():
 
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test).astype(int)
+    model_r2 = r2_score(y_test, y_pred)
+    model_mae = mean_absolute_error(y_test, y_pred)
 
     # Check model quality
     l_test:list[int] = y_test.tolist()
@@ -32,6 +34,12 @@ def build_and_train_model():
         print(f"Price: {l_test[i]:>10,.0f}  Predicted: {l_pred[i]:>10,.0f}")
     print(f"R-squared: {r2_score(y_test, y_pred):.2f}")
     print(f"MAE      : {mean_absolute_error(y_test, y_pred):.0f}")
+
+def get_model_scores():
+    return {
+        "r2":model_r2,
+        "mae":model_mae
+    }
 
 def predict_price(x, y, m2:int,house_type, standard) -> float:
     # Build a single sample
